@@ -67,7 +67,7 @@
       <parent link="${name}_thigh"/><child link="${name}_shin"/>
       <origin xyz="0 0 ${-thigh_l}"/>
       <axis xyz="0 1 0"/>
-      <limit lower="-2.6" upper="-0.2" effort="20" velocity="10"/>
+      <limit lower="-2.6" upper="0.0" effort="20" velocity="10"/>
       <dynamics damping="0.1" friction="0.0"/>
     </joint>
 
@@ -106,4 +106,5 @@
   <xacro:leg name="rl" x="-0.15" y="0.10"  side="1"/>
   <xacro:leg name="rr" x="-0.15" y="-0.10" side="-1"/>
 
+  <xacro:include filename="quad.ros2_control.xacro"/>
 </robot>

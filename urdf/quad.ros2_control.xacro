@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:macro name="jc" params="name">
+    <joint name="${name}">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+  </xacro:macro>
+
+  <ros2_control name="GazeboSimSystem" type="system">
+    <hardware>
+      <plugin>gz_ros2_control/GazeboSimSystem</plugin>
+    </hardware>
+    <xacro:jc name="fl_hip_joint"/>
+    <xacro:jc name="fl_thigh_joint"/>
+    <xacro:jc name="fl_knee_joint"/>
+    <xacro:jc name="fr_hip_joint"/>
+    <xacro:jc name="fr_thigh_joint"/>
+    <xacro:jc name="fr_knee_joint"/>
+    <xacro:jc name="rl_hip_joint"/>
+    <xacro:jc name="rl_thigh_joint"/>
+    <xacro:jc name="rl_knee_joint"/>
+    <xacro:jc name="rr_hip_joint"/>
+    <xacro:jc name="rr_thigh_joint"/>
+    <xacro:jc name="rr_knee_joint"/>
+  </ros2_control>
+
+  <gazebo>
+    <plugin filename="gz_ros2_control-system" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
+      <parameters>$(find quad_description)/config/controllers.yaml</parameters>
+    </plugin>
+  </gazebo>
+
+</robot>
