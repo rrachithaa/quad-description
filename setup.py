@@ -24,6 +24,6 @@ setup(
     license='MIT',
     tests_require=['pytest'],
     entry_points={
-        'console_scripts': ['posture = quad_description.posture:main', 'height = quad_description.height:main'],
+        'console_scripts': ['posture = quad_description.posture:main', 'height = quad_description.height:main', 'gait = quad_description.gait:main'],
     },
 )

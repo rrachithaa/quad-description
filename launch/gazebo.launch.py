@@ -1,7 +1,7 @@
 import os
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
-from launch.actions import IncludeLaunchDescription, RegisterEventHandler
+from launch.actions import ExecuteProcess, IncludeLaunchDescription, RegisterEventHandler
 from launch.event_handlers import OnProcessExit
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import Command
@@ -32,8 +32,14 @@ def generate_launch_description():
     jsb = spawner('joint_state_broadcaster')
     jtc = spawner('joint_trajectory_controller')
 
+    # The plugin ignores the gain from URDF/YAML in this release, so set it as a live parameter
+    gain = ExecuteProcess(
+        cmd=['ros2', 'param', 'set', '/gz_ros2_control', 'position_proportional_gain', '1.0'],
+        output='screen')
+
     return LaunchDescription([
         gz, rsp, spawn,
         RegisterEventHandler(OnProcessExit(target_action=spawn, on_exit=[jsb])),
         RegisterEventHandler(OnProcessExit(target_action=jsb, on_exit=[jtc])),
+        RegisterEventHandler(OnProcessExit(target_action=jtc, on_exit=[gain])),
     ])
