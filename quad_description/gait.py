@@ -64,6 +64,7 @@ def main():
     ap.add_argument('--lift', type=float, default=0.05, help='foot lift (m)')
     ap.add_argument('--xoff', type=float, default=0.0, help='foot x offset (m)')
     ap.add_argument('--duration', type=float, default=8.0, help='seconds to run')
+    ap.add_argument('--lead', type=float, default=0.01, help='time_from_start of each streamed setpoint (s)')
     a = ap.parse_args(remove_ros_args(args=sys.argv)[1:])
 
     rclpy.init()
@@ -92,7 +93,7 @@ def main():
     try:
         while time.time() - start < a.duration:
             t = time.time() - start
-            send(pub, joint_targets(t, a.period, a.height, a.step, a.lift, a.xoff, a.period), 0.06)
+            send(pub, joint_targets(t, a.period, a.height, a.step, a.lift, a.xoff, a.period), a.lead)
             time.sleep(0.02)
     except KeyboardInterrupt:
         pass
