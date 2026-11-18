@@ -17,7 +17,7 @@ def generate_launch_description():
 
     gz = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(os.path.join(gz_share, 'launch', 'gz_sim.launch.py')),
-        launch_arguments={'gz_args': '-r empty.sdf'}.items())
+        launch_arguments={'gz_args': '-r ' + os.path.join(share, 'worlds', 'obstacles.sdf')}.items())
 
     rsp = Node(package='robot_state_publisher', executable='robot_state_publisher',
                parameters=[{'robot_description': robot_description}])
@@ -37,8 +37,11 @@ def generate_launch_description():
         cmd=['ros2', 'param', 'set', '/gz_ros2_control', 'position_proportional_gain', '1.0'],
         output='screen')
 
+    bridge = Node(package='ros_gz_bridge', executable='parameter_bridge', output='screen',
+                  arguments=['/scan@sensor_msgs/msg/LaserScan[ignition.msgs.LaserScan'])
+
     return LaunchDescription([
-        gz, rsp, spawn,
+        gz, rsp, spawn, bridge,
         RegisterEventHandler(OnProcessExit(target_action=spawn, on_exit=[jsb])),
         RegisterEventHandler(OnProcessExit(target_action=jsb, on_exit=[jtc])),
         RegisterEventHandler(OnProcessExit(target_action=jtc, on_exit=[gain])),
