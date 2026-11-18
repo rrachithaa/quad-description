@@ -2,7 +2,11 @@
 
 A 12-DOF quadruped robot built from scratch in ROS 2. It uses a custom trot gait and inverse kinematics, and walks autonomously around obstacles using a 2D LiDAR.
 
-![demo](assets/demo.gif)
+![walking demo](assets/demo.gif)
+
+![LiDAR obstacle avoidance](assets/demo_lidar.gif)
+
+Full video (Gazebo + RViz): [assets/demo_lidar.mp4](assets/demo_lidar.mp4)
 
 ## Features
 - Custom 12-joint quadruped model (URDF/xacro) with `ros2_control`
